@@ -1,0 +1,22 @@
+{
+    "python.analysis.include": ["**/src/**"],
+    "[python]": 
+    {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+    
+        "editor.codeActionsOnSave": 
+        {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+    
+        "ruff.organizeImports": true
+    },
+
+    "python.languageServer": "Pylance",
+    "python.testing.unittestEnabled": false,
+    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.languageServerMode": "full",
+    // "python.analysis.inlayHints.variableTypes": true,
+}

@@ -1,0 +1,17 @@
+[project]
+name = "windsuite-sdk-examples"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dotenv>=0.9.9",
+    "rerun-sdk>=0.28.2",
+    "windsuite-sdk==0.4.1",
+]
+
+[dependency-groups]
+dev = [
+    "pyright[nodejs]>=1.1.408",
+    "ruff>=0.14.11",
+]
