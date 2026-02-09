@@ -12,6 +12,7 @@ SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
 
 stop_event = threading.Event()
 
+
 def main() -> None:
     base_url = f"http://{SERVER_IP_ADDRESS}"
 
@@ -24,7 +25,6 @@ def main() -> None:
     sinus_freq_hz = 2
 
     try:
-
         while not stop_event.wait(timeout=(1.0 / main_loop_hz)):
             # ! SINUS MODULE CHECKERBOARD EXAMPLE
             intensity = 50 + 50 * math.sin(2 * math.pi * sinus_freq_hz * time.time())

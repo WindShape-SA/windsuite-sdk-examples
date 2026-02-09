@@ -1,5 +1,6 @@
 import os
 import threading
+import time
 
 from dotenv import load_dotenv
 from windsuite_sdk import WindProbeData, WindsuiteSDK
@@ -60,7 +61,9 @@ def main() -> None:
         print("\nShutting down...")
         stop_event.set()
     finally:
-        sdk.fan_controller.set_intensity(0).apply()
+        ret = sdk.fan_controller.set_intensity(0).apply()
+        print(ret)
+        time.sleep(1)
 
         sdk.cleanup()
         print("SDK stopped")

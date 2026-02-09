@@ -34,9 +34,11 @@ def on_tracking_data(data: dict[str, TrackingData]) -> None:
         )
 
         vel = tracking_data.velocity_mps_world_ref
-        norm = (vel.x**2 + vel.y**2 + vel.z**2) ** 0.5
+        print(f"  Velocity (world): (X:{vel.x:.2f}, Y:{vel.y:.2f}, Z:{vel.z:.2f}) m/s")
+
+        rot_speed_degps = tracking_data.angular_velocity_degps_world_ref
         print(
-            f"  Velocity (world): (X:{vel.x:.2f}, Y:{vel.y:.2f}, Z:{vel.z:.2f}) m/s | Norm : {norm:.2f} m/s"
+            f"  Angular Velocity (world): (X:{rot_speed_degps.x:.2f}, Y:{rot_speed_degps.y:.2f}, Z:{rot_speed_degps.z:.2f}) deg/s"
         )
 
     print()

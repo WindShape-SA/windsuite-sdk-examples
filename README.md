@@ -7,7 +7,7 @@ This contains examples demonstrating how to use the WindSuite SDK.
 
 In order to run theses examples, you'll need [Astral uv](https://docs.astral.sh/uv/getting-started/installation/) installed on your machine.
 
-1. Clone the repository:
+1. Clone the examples repository:
 
 ```bash
 git clone git@github.com:WindShape-SA/windsuite-sdk-examples.git
