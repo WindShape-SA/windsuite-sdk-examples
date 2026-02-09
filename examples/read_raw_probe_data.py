@@ -25,11 +25,7 @@ def on_windprobe_data(data: WindProbeData) -> None:
         f"{data.wind_velocity_mps_probe_ref.y:.2f}, "
         f"{data.wind_velocity_mps_probe_ref.z:.2f}) m/s"
     )
-    print(
-        f"Wind Velocity (windshaper ref): ({data.wind_velocity_mps_windshaper_ref.x:.2f}, "
-        f"{data.wind_velocity_mps_windshaper_ref.y:.2f}, "
-        f"{data.wind_velocity_mps_windshaper_ref.z:.2f}) m/s"
-    )
+
     print(f"Temperature: {data.temperature_celcius:.2f}°C")
     print(f"Atmospheric Pressure: {data.atmospheric_pressure_hpascal:.2f} hPa")
     print(f"Static Pressure: {data.static_pressure_pascal:.2f} Pa")
