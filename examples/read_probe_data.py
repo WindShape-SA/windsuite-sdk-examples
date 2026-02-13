@@ -55,9 +55,8 @@ def main() -> None:
     sdk.register_windprobe_callback(callback=on_windprobe_data)
     sdk.start_communication()
 
+    freq_hz = 25
     try:
-        freq_hz = 25
-
         while not stop_event.wait(timeout=(1.0 / freq_hz)):
             # ! DO WHATEVER
             pass

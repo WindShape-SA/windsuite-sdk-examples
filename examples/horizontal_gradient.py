@@ -22,6 +22,9 @@ def main() -> None:
     main_loop_hz = 25
 
     try:
+        sdk.set_psu(state=True)
+        stop_event.wait(timeout=2)
+
         sdk.fan_controller.set_intensity(percent=[20, 40, 60, 80]).apply()
 
         while not stop_event.wait(timeout=(1.0 / main_loop_hz)):

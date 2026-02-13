@@ -71,8 +71,10 @@ def main() -> None:
 
     sdk.start_communication()
 
+    freq_hz = 25
     try:
-        freq_hz = 25
+        sdk.set_psu(state=True)
+        stop_event.wait(timeout=2)
 
         sdk.fan_controller.set_intensity(percent=30)
         sdk.fan_controller.apply()

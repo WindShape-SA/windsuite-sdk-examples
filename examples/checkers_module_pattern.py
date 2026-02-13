@@ -10,6 +10,7 @@ SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
 
 stop_event = threading.Event()
 
+
 def main() -> None:
     base_url = f"http://{SERVER_IP_ADDRESS}"
 
@@ -21,6 +22,9 @@ def main() -> None:
     main_loop_hz = 25
 
     try:
+        sdk.set_psu(state=True)
+        stop_event.wait(timeout=2)
+
         sdk.fan_controller.even_modules().set_intensity(percent=20)
         sdk.fan_controller.odd_modules().set_intensity(percent=80)
         sdk.fan_controller.apply()

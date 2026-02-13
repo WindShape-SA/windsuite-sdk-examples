@@ -6,8 +6,9 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "dotenv>=0.9.9",
+    "matplotlib>=3.10.8",
     "rerun-sdk>=0.28.2",
-    "windsuite-sdk==0.4.1",
+    "windsuite-sdk==0.4.5",
 ]
 
 [dependency-groups]

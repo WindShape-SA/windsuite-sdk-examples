@@ -25,6 +25,9 @@ def main() -> None:
     sinus_freq_hz = 2
 
     try:
+        sdk.set_psu(state=True)
+        stop_event.wait(timeout=2)
+
         while not stop_event.wait(timeout=(1.0 / main_loop_hz)):
             # ! SINUS MODULE CHECKERBOARD EXAMPLE
             intensity = 50 + 50 * math.sin(2 * math.pi * sinus_freq_hz * time.time())

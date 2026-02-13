@@ -22,6 +22,9 @@ def main() -> None:
     main_loop_hz = 25
 
     try:
+        sdk.set_psu(state=True)
+        stop_event.wait(timeout=2)
+
         sdk.fan_controller.even_modules().fans(fans=[1, 3, 5, 7, 9]).set_intensity(
             percent=20
         )
