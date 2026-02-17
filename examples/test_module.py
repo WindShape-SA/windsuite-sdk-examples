@@ -31,8 +31,8 @@ SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
 MODULE_X = 2
 MODULE_Y = 2
 PWM_PERCENT = 20
-WARMUP_TIME_S = 20
-MEASURE_TIME_S = 120
+WARMUP_TIME_S = 5
+MEASURE_TIME_S = 20
 
 # Data storage: {(position, layer_name, fan_index): [(timestamp, rpm), ...]}
 rpm_data: dict[tuple[tuple[int, int], str, int], list[tuple[float, float]]] = (
@@ -42,6 +42,21 @@ rpm_data: dict[tuple[tuple[int, int], str, int], list[tuple[float, float]]] = (
 live_rpms: dict[tuple[tuple[int, int], str], list[float]] = {}
 recording = False
 start_time = 0.0
+
+
+# ANSI color codes
+COLOR_GREEN = "\033[92m"
+COLOR_RED = "\033[91m"
+COLOR_RESET = "\033[0m"
+
+
+def format_rpm_with_color(rpm: float, upstream: bool) -> str:
+    """Format RPM value with color based on whether it's in expected range."""
+    upper, lower, _ = rpm_range_from_pwm(PWM_PERCENT, upstream)
+    if lower <= rpm <= upper:
+        return f"{COLOR_GREEN}{rpm:>7.0f}{COLOR_RESET}"
+    else:
+        return f"{COLOR_RED}{rpm:>7.0f}{COLOR_RESET}"
 
 
 def display_live_rpms() -> None:
@@ -68,13 +83,17 @@ def display_live_rpms() -> None:
 
     # Downstream row
     if downstream:
-        row = "DOWNSTREAM  " + "".join(f"{rpm:>7.0f}" for rpm in downstream)
+        row = "DOWNSTREAM  " + "".join(
+            format_rpm_with_color(rpm, upstream=False) for rpm in downstream
+        )
         print(row)
 
     # Upstream row
     upstream = live_rpms.get((position, "UPSTREAM"), [])
     if upstream:
-        row = "UPSTREAM    " + "".join(f"{rpm:>7.0f}" for rpm in upstream)
+        row = "UPSTREAM    " + "".join(
+            format_rpm_with_color(rpm, upstream=True) for rpm in upstream
+        )
         print(row)
 
     sys.stdout.flush()
@@ -129,11 +148,72 @@ def calculate_statistics(values: list[float]) -> dict[str, np.floating[Any]]:
     }
 
 
+def rpm_range_from_pwm(
+    pwm_percent: int,
+    upstream: bool,
+    accuracy_range: float = 0.10,
+) -> tuple[int, int, int]:
+    """
+    Return expected RPM range for a given PWM power level.
+
+    Args:
+        pwm_percent: Power of the fan as percentage (0 to 100)
+        upstream: True for upstream layer, False for downstream
+        accuracy_range: Acceptable RPM deviation as a fraction (default 10%)
+
+    Returns:
+        Tuple of (upper_bound, lower_bound, expected_rpm)
+    """
+    ax_upstream = 129.5
+    b_upstream = 778.6
+
+    ax_downstream = 124.9
+    b_downstream = 717.4
+
+    if pwm_percent < 10:
+        return (0, 0, 0)
+
+    pwm_percent = min(pwm_percent, 100)
+    if upstream:
+        rpm = ax_upstream * pwm_percent + b_upstream
+    else:
+        rpm = ax_downstream * pwm_percent + b_downstream
+
+    upper = rpm + rpm * accuracy_range
+    lower = rpm - rpm * accuracy_range
+
+    return (int(upper), int(lower), int(rpm))
+
+
+def check_rpm_in_range(
+    mean_rpm: float, layer_name: str, pwm_percent: int, accuracy_range: float = 0.10
+) -> tuple[bool, int, int, int]:
+    """
+    Check if the measured mean RPM is within the expected range.
+
+    Args:
+        mean_rpm: The measured mean RPM value
+        layer_name: "UPSTREAM" or "DOWNSTREAM"
+        pwm_percent: The PWM percentage (0-100)
+        accuracy_range: Acceptable RPM deviation as a fraction
+
+    Returns:
+        Tuple of (is_in_range, upper_bound, lower_bound, expected_rpm)
+    """
+    upstream = layer_name == "UPSTREAM"
+    upper, lower, expected = rpm_range_from_pwm(pwm_percent, upstream, accuracy_range)
+
+    is_in_range = lower <= mean_rpm <= upper
+    return (is_in_range, upper, lower, expected)
+
+
 def print_statistics() -> None:
     """Print statistics for all recorded fans."""
     print("\n" + "=" * 60)
     print("RPM STATISTICS")
     print("=" * 60)
+
+    failed_fans: list[tuple[tuple[int, int], str, int, float, int, int]] = []
 
     for key, data in sorted(rpm_data.items()):
         position, layer_name, fan_index = key
@@ -143,17 +223,47 @@ def print_statistics() -> None:
             continue
 
         stats = calculate_statistics(rpms)
+        mean_rpm = float(stats["mean"])
 
-        print(f"\nModule {position} - {layer_name} - Fan {fan_index}:")
-        print(f"  Mean:   {stats['mean']:.2f} RPM")
-        print(f"  Median: {stats['median']:.2f} RPM")
-        print(f"  Std:    {stats['std']:.2f} RPM")
-        print(f"  Min:    {stats['min']:.2f}RPM")
-        print(f"  Max:    {stats['max']:.2f}RPM")
-        print(f"  p99:    {stats['p99']:.2f} RPM")
-        print(f"  p75:    {stats['p75']:.2f} RPM")
-        print(f"  p10:    {stats['p10']:.2f} RPM")
-        print(f"  p5:     {stats['p5']:.2f} RPM")
+        # Check if RPM is within expected range
+        in_range, upper, lower, expected = check_rpm_in_range(
+            mean_rpm, layer_name, PWM_PERCENT
+        )
+        status = "OK" if in_range else "FAIL"
+
+        print(f"\nModule {position} - {layer_name} - Fan {fan_index}: [{status}]")
+        print(
+            f"  Mean:     {mean_rpm:.2f} RPM (expected: {expected}, range: {lower}-{upper})"
+        )
+        print(f"  Median:   {stats['median']:.2f} RPM")
+        print(f"  Std:      {stats['std']:.2f} RPM")
+        print(f"  Min:      {stats['min']:.2f} RPM")
+        print(f"  Max:      {stats['max']:.2f} RPM")
+        print(f"  p99:      {stats['p99']:.2f} RPM")
+        print(f"  p75:      {stats['p75']:.2f} RPM")
+        print(f"  p10:      {stats['p10']:.2f} RPM")
+        print(f"  p5:       {stats['p5']:.2f} RPM")
+
+        if not in_range:
+            failed_fans.append(
+                (position, layer_name, fan_index, mean_rpm, lower, upper)
+            )
+
+    # Print summary
+    print("\n" + "=" * 60)
+    print("RPM RANGE CHECK SUMMARY")
+    print("=" * 60)
+    total_fans = len(rpm_data)
+    passed_fans = total_fans - len(failed_fans)
+    print(f"Passed: {passed_fans}/{total_fans}")
+
+    if failed_fans:
+        print("\nFailed fans:")
+        for position, layer_name, fan_index, mean_rpm, lower, upper in failed_fans:
+            print(
+                f"  Module {position} - {layer_name} - Fan {fan_index}: "
+                f"{mean_rpm:.2f} RPM (expected range: {lower}-{upper})"
+            )
 
 
 def plot_rpm_data() -> None:
