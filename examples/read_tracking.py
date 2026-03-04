@@ -6,7 +6,7 @@ from windsuite_sdk import TrackingData, WindsuiteSDK
 
 load_dotenv()
 
-SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
+SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 
 
 def on_tracking_data(data: dict[str, TrackingData]) -> None:

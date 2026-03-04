@@ -26,11 +26,11 @@ from windsuite_sdk import ModuleInfo, WindsuiteSDK
 
 load_dotenv()
 
-SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
+SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 
-MODULE_X = 2
-MODULE_Y = 2
-PWM_PERCENT = 20
+MODULE_X = 1
+MODULE_Y = 1
+PWM_PERCENT = 5
 WARMUP_TIME_S = 5
 MEASURE_TIME_S = 20
 

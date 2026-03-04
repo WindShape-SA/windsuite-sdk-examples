@@ -1329,7 +1329,7 @@ wheels = [
 
 [[package]]
 name = "windsuite-sdk"
-version = "0.4.5"
+version = "0.4.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "loguru" },
@@ -1337,9 +1337,9 @@ dependencies = [
     { name = "python-socketio", extra = ["asyncio-client"] },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/47/5e/aee79d0c74d0e0e870278e5b33f8bad615e5645974a9b725acbf5fb35a78/windsuite_sdk-0.4.5.tar.gz", hash = "sha256:1068d5085ca8690b886c49e1d6e9c0e12a69f401fa9999401ac4ec86b1e64280", size = 96266, upload-time = "2026-02-13T15:49:55.545Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/a9/3929cd3b8eaf85f4f459a1e8fee9ab657829f400d19ceec2fce14762437e/windsuite_sdk-0.4.7.tar.gz", hash = "sha256:1d488345fcbbefcf2482369094ae6517b2f442a40b613f0fd8281da46eb65453", size = 95184, upload-time = "2026-02-23T13:07:01.759Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3b/9a/c92e198bf59349a6b43b374455893ab7d1358fc98ef8bb772bf85086dfc6/windsuite_sdk-0.4.5-py3-none-any.whl", hash = "sha256:40f8f7d3328c6742fa476cb3eaa565bf304eac094b683d4a1eaafd2dc4f13087", size = 19540, upload-time = "2026-02-13T15:49:56.965Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/26/77fde0f91ab03c886e9f94fa1b5c0b28d72cd32caebd5859b8edb8eab376/windsuite_sdk-0.4.7-py3-none-any.whl", hash = "sha256:e24c74197aca432063840f4e4d10610c6257bf8525133a2d1e6a546caaac04b8", size = 18342, upload-time = "2026-02-23T13:07:00.227Z" },
 ]
 
 [[package]]
@@ -1364,7 +1364,7 @@ requires-dist = [
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "rerun-sdk", specifier = ">=0.28.2" },
-    { name = "windsuite-sdk", specifier = "==0.4.5" },
+    { name = "windsuite-sdk", specifier = "==0.4.7" },
 ]
 
 [package.metadata.requires-dev]

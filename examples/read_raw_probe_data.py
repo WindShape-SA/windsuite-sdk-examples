@@ -7,7 +7,7 @@ from windsuite_sdk import WindProbeData, WindsuiteSDK
 
 load_dotenv()
 
-SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
+SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 
 
 def on_windprobe_data(data: WindProbeData) -> None:

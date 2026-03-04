@@ -7,7 +7,7 @@ from windsuite_sdk import WindsuiteSDK
 
 load_dotenv()
 
-SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
+SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 
 stop_event = threading.Event()
 

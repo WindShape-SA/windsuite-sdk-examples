@@ -25,7 +25,7 @@ from windsuite_sdk import ModuleInfo, WindsuiteSDK
 
 load_dotenv()
 
-SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="localhost")
+SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 
 PWM_PERCENT = 20
 WARMUP_TIME_S = 5
@@ -65,7 +65,9 @@ def display_live_rpms() -> None:
     sys.stdout.write("\033[2J\033[H")
 
     elapsed = time.time() - start_time if start_time else 0
-    print(f"LIVE RPM MONITOR | All Modules | Elapsed: {elapsed:.1f}s | PWM: {PWM_PERCENT}%")
+    print(
+        f"LIVE RPM MONITOR | All Modules | Elapsed: {elapsed:.1f}s | PWM: {PWM_PERCENT}%"
+    )
     print()
 
     # Get all unique positions from live_rpms
