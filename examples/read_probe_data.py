@@ -52,11 +52,8 @@ def main() -> None:
     sdk.register_windprobe_callback(callback=on_windprobe_data)
     sdk.start_communication()
 
-    freq_hz = 25
     try:
-        while not stop_event.wait(timeout=(1.0 / freq_hz)):
-            # ! DO WHATEVER
-            pass
+        stop_event.wait(timeout=10)
 
     except KeyboardInterrupt:
         print("\nShutting down...")

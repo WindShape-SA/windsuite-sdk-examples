@@ -114,7 +114,6 @@ def main() -> None:
 
     sdk.start_communication()
 
-    freq_hz = 25
     try:
         sdk.set_psu(state=True)
         stop_event.wait(timeout=2)
@@ -122,9 +121,7 @@ def main() -> None:
         sdk.fan_controller.set_intensity(percent=30)
         sdk.fan_controller.apply()
 
-        while not stop_event.wait(timeout=(1.0 / freq_hz)):
-            # ! DO WHATEVER
-            pass
+        stop_event.wait(timeout=10)
 
     except KeyboardInterrupt:
         print("\nShutting down...")

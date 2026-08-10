@@ -52,8 +52,7 @@ def main() -> None:
     print("Listening for wind probe data. Press Ctrl+C to stop...")
 
     try:
-        while not stop_event.wait(timeout=0.1):
-            pass
+        stop_event.wait(timeout=10)
 
     except KeyboardInterrupt:
         print("\nShutting down...")

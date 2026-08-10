@@ -865,7 +865,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "windsuite-sdk", specifier = ">=0.5.0" }]
+requires-dist = [{ name = "windsuite-sdk", specifier = ">=0.5.1" }]
 
 [package.metadata.requires-dev]
 dev = [

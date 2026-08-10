@@ -16,8 +16,6 @@ def main() -> None:
     sdk = WindsuiteSDK(base_url=base_url)
     sdk.start_communication()
 
-    main_loop_hz = 25
-
     try:
         sdk.set_psu(state=True)
         stop_event.wait(timeout=2)
@@ -26,9 +24,7 @@ def main() -> None:
         sdk.fan_controller.odd_modules().set_intensity(percent=80)
         sdk.fan_controller.apply()
 
-        while not stop_event.wait(timeout=(1.0 / main_loop_hz)):
-            # ! DO WHATEVER
-            pass
+        stop_event.wait(timeout=10)
 
     except KeyboardInterrupt:
         print("\nShutting down...")

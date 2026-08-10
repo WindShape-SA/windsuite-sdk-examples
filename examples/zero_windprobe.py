@@ -16,16 +16,12 @@ def main() -> None:
     sdk = WindsuiteSDK(base_url=base_url)
     sdk.start_communication()
 
-    main_loop_hz = 25
-
     try:
         success = sdk.zero_windprobe()
         if success:
             print("Windprobe zeroed successfully.")
 
-        while not stop_event.wait(timeout=(1.0 / main_loop_hz)):
-            # ! DO WHATEVER
-            pass
+        stop_event.wait(timeout=10)
 
     except KeyboardInterrupt:
         print("\nShutting down...")
