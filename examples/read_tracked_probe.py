@@ -1,13 +1,17 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "numpy>=2.4.6",
+#     "windsuite-sdk>=0.5.0",
+# ]
+# ///
 import os
 import threading
 
 import numpy as np
-from dotenv import load_dotenv
 from windsuite_sdk import TrackedProbeData, WindsuiteSDK
 
-load_dotenv()
-
-SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="172.16.80.203")
+SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 TIME_WINDOW_SECONDS = 10.0
 
 

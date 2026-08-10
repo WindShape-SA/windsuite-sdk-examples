@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "numpy>=2.4.6",
+#     "rerun-sdk>=0.28.2",
+#     "windsuite-sdk>=0.5.0",
+# ]
+# ///
 """Live plot wind probe velocity data using Rerun.
 
 Connects to WindSuite SDK and visualizes wind velocities in real-time.
@@ -11,10 +19,7 @@ import time
 import numpy as np
 import rerun as rr
 import rerun.blueprint as rrb
-from dotenv import load_dotenv
 from windsuite_sdk import WindProbeData, WindsuiteSDK
-
-load_dotenv()
 
 SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 TIME_WINDOW_SECONDS = 10.0

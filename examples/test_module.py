@@ -1,3 +1,11 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "matplotlib>=3.10.8",
+#     "numpy>=2.4.6",
+#     "windsuite-sdk>=0.5.0",
+# ]
+# ///
 """
 This will set the PWM of a single module (specified by MODULE_X, MODULE_Y) to 20%
 and show and record the RPMs
@@ -21,10 +29,7 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
-from dotenv import load_dotenv
 from windsuite_sdk import ModuleInfo, WindsuiteSDK
-
-load_dotenv()
 
 SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 

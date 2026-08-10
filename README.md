@@ -21,16 +21,18 @@ cd windsuite-sdk-examples
 uv sync
 ```
 
-3. Setup your .env file:
-```bash
-cp .env.example .env
-# modify the .env file with the server IP ADDRESS, example:
-SERVER_IP_ADDRESS="172.16.20.190"
-```
-
-4. Run an example:
+3. Run an example:
 
 ```bash
 cd examples
+uv run dynamic_checkers_pattern.py
+```
+
+By default, examples connect to `192.168.88.40`, the WindSuite server's default IP address.
+
+If your server uses a different address, override it with an environment variable instead of editing the scripts:
+
+```bash
+export SERVER_IP_ADDRESS="172.16.20.190"
 uv run dynamic_checkers_pattern.py
 ```

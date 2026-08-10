@@ -3,10 +3,7 @@ import os
 import threading
 import time
 
-from dotenv import load_dotenv
 from windsuite_sdk import WindsuiteSDK
-
-load_dotenv()
 
 SERVER_IP_ADDRESS = os.getenv("SERVER_IP_ADDRESS", default="192.168.88.40")
 
