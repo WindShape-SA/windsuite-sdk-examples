@@ -116,7 +116,7 @@ def main() -> None:
 
     try:
         sdk.set_psu(state=True)
-        stop_event.wait(timeout=2)
+        stop_event.wait(timeout=7)
 
         sdk.fan_controller.set_intensity(percent=30)
         sdk.fan_controller.apply()
