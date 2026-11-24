@@ -5,7 +5,7 @@ description = "Windsuite SDK examples"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "windsuite-sdk>=0.5.1",
+    "windsuite-sdk>=0.5.2",
 ]
 
 [dependency-groups]
