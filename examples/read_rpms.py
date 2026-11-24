@@ -21,6 +21,8 @@ def on_module_update(data: dict[tuple[int, int], ModuleInfo]) -> None:
         print(f"  IP Address: {module_info.ip}")
         print(f"  Type: {module_info.type}")
         print(f"  Lifepoints: {module_info.lifepoints}")
+        # Backend reception time (unix epoch, s) of the module data, None if never received
+        print(f"  Timestamp (s): {module_info.timestamp_s}")
 
         # ! FOR EACH FAN LAYER
         # The fans are indexed as a 3x3 matrix as they are physically arranged in the modules
